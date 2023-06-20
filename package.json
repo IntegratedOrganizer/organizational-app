@@ -1,18 +1,17 @@
 {
-  "name": "custom-plugin",
+  "name": "organizational-app",
   "version": "0.0.1",
-  "description": "Custom plugin example for PostGraphile.",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "gm": "node -r @app/config/env node_modules/.bin/graphile-migrate",
+    "gm": "node -r ./scripts/config/env node_modules/.bin/graphile-migrate",
     "migrate": "npm run gm migrate",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "graphile-utils": "^4.13.0",
-    "postgraphile": "^4.13.0",
+    "dotenv": "^16.3.1",
     "graphile-migrate": "^1.4.1"
   }
 }
