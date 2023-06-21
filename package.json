@@ -10,6 +10,7 @@
     "db:migrate": "npm run gm migrate",
     "db:watch": "npm run gm watch",
     "force:restart": "docker compose down --volumes && docker compose up --build -d",
+    "force:restart:orphans": "docker compose down --volumes && docker compose up --build --remove-orphans -d",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

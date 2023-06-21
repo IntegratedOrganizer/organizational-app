@@ -1,64 +1,51 @@
 version: '3.3'
 services:
   db:
-    container_name: organizational-app-db
     restart: unless-stopped
-    image: organizational-app-db
-    build:
-      context: ./db
+    image: postgres:alpine
     volumes:
-      - db-volume:/var/lib/postgresql/data
-      - ./data:/data
+      - ./data:/var/lib/postgresql/data
     env_file:
       - ./.env
     networks:
       - network
     ports:
       - 5432:5432
-    working_dir: /work
 
-  shadow-db:
-    container_name: shadow-db
-    restart: unless-stopped
-    image: shadow-db
-    build:
-      context: ./db/shadow
-    env_file:
-      - ./db/shadow/.env
-    networks:
-      - network
+  postgrest:
+    image: postgrest/postgrest
     ports:
-      - 5438:5432
-    working_dir: /work
-
-  graphql:
-    container_name: organizational-app-graphql
-    restart: always
-    image: organizational-app-graphql
-    build:
-      context: ./graphql
+      - 3000:3000
     env_file:
       - ./.env
-    depends_on:
-      - db
     networks:
       - network
+    depends_on:
+      - db
+
+  swagger:
+    image: swaggerapi/swagger-ui
     ports:
-      - 5433:5433
-    command:
-      [
-        '--connection',
-        '${DATABASE_URL}',
-        '--port',
-        '5433',
-        '--schema',
-        'public',
-        '--append-plugins',
-        'postgraphile-plugin-connection-filter,custom-plugin',
-      ]
+      - 3030:3030
+    expose:
+      - '3030'
+    environment:
+      API_URL: http://localhost:3000/
+    depends_on:
+      - postgrest
+    networks:
+      - network
+
+  app:
+    container_name: organizational-app
+    image: nginx:mainline-alpine
+    ports:
+      - 80:80
+    volumes:
+      - ./html:/usr/share/nginx/html
+    restart: always
+    networks:
+      - network
 
 networks:
   network:
-
-volumes:
-  db-volume:
