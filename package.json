@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "gm": "node -r ./scripts/config/env node_modules/.bin/graphile-migrate",
-    "migrate": "npm run gm migrate",
+    "db:commit": "npm run gm commit",
+    "db:init": "npm run gm init",
+    "db:migrate": "npm run gm migrate",
+    "db:watch": "npm run gm watch",
+    "force:restart": "docker compose down --volumes && docker compose up --build -d",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

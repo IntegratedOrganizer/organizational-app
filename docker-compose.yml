@@ -1,4 +1,4 @@
-version: "3.3"
+version: '3.3'
 services:
   db:
     container_name: organizational-app-db
@@ -15,7 +15,21 @@ services:
       - network
     ports:
       - 5432:5432
-    working_dir: /
+    working_dir: /work
+
+  shadow-db:
+    container_name: shadow-db
+    restart: unless-stopped
+    image: shadow-db
+    build:
+      context: ./db/shadow
+    env_file:
+      - ./db/shadow/.env
+    networks:
+      - network
+    ports:
+      - 5438:5432
+    working_dir: /work
 
   graphql:
     container_name: organizational-app-graphql
@@ -33,18 +47,18 @@ services:
       - 5433:5433
     command:
       [
-        "--connection",
-        "${DATABASE_URL}",
-        "--port",
-        "5433",
-        "--schema",
-        "public",
-        "--append-plugins",
-        "postgraphile-plugin-connection-filter,custom-plugin",
+        '--connection',
+        '${DATABASE_URL}',
+        '--port',
+        '5433',
+        '--schema',
+        'public',
+        '--append-plugins',
+        'postgraphile-plugin-connection-filter,custom-plugin',
       ]
 
 networks:
   network:
 
 volumes:
-  db:
+  db-volume:
