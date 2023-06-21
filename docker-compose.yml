@@ -1,51 +1,53 @@
 version: '3.3'
 services:
   db:
-    restart: unless-stopped
-    image: postgres:alpine
-    volumes:
-      - ./data:/var/lib/postgresql/data
     env_file:
       - ./.env
+    image: postgres:alpine
     networks:
       - network
     ports:
       - 5432:5432
+    restart: unless-stopped
+    volumes:
+      - ./data:/var/lib/postgresql/data
 
   postgrest:
-    image: postgrest/postgrest
-    ports:
-      - 3000:3000
-    env_file:
-      - ./.env
-    networks:
-      - network
     depends_on:
       - db
-
-  swagger:
-    image: swaggerapi/swagger-ui
-    ports:
-      - 3001:8080
-    expose:
-      - '3001'
-    environment:
-      API_URL: http://localhost:3000/
-    depends_on:
-      - postgrest
+    env_file:
+      - ./.env
+    image: postgrest/postgrest
     networks:
       - network
+    ports:
+      - 3000:3000
+
+  swagger:
+    depends_on:
+      - postgrest
+    environment:
+      API_URL: http://localhost:3000/
+    expose:
+      - '3001'
+    image: swaggerapi/swagger-ui
+    networks:
+      - network
+    ports:
+      - 3001:8080
 
   app:
     container_name: organizational-app
+    depends_on:
+      - postgrest
     image: nginx:mainline-alpine
-    ports:
-      - 80:80
-    volumes:
-      - ./html:/usr/share/nginx/html
-    restart: always
     networks:
       - network
+    ports:
+      - 80:80
+    restart: always
+    volumes:
+      - ./html:/usr/share/nginx/html
 
 networks:
   network:
