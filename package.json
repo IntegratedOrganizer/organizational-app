@@ -11,6 +11,7 @@
     "force:restart:orphans": "docker compose down --volumes && docker compose up --build --remove-orphans -d",
     "force:restart": "docker compose down --volumes && docker compose up --build -d",
     "gm": "node -r ./scripts/config/env node_modules/.bin/graphile-migrate",
+    "psql:connect": "psql -h 127.0.0.1 -U postgres -p 3002 -d organizational-app",
     "restart": "docker compose down && docker compose up -d",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

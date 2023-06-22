@@ -5,12 +5,12 @@ services:
     env_file:
       - ./.env
     expose:
-      - '3002'
+      - '3000'
     image: postgres:13
     networks:
       - network
     ports:
-      - 3002:5432
+      - 3000:5432
     restart: always
     volumes:
       - ./dbinit:/docker-entrypoint-initdb.d
@@ -23,12 +23,12 @@ services:
     env_file:
       - ./.env
     expose:
-      - '3000'
+      - '3001'
     image: postgrest/postgrest
     networks:
       - network
     ports:
-      - 3000:3000
+      - 3001:3000
     restart: always
 
   swagger:
@@ -36,14 +36,14 @@ services:
     depends_on:
       - postgrest
     environment:
-      API_URL: http://localhost:3000/
+      API_URL: http://localhost:3001/
     expose:
-      - '3001'
+      - '3002'
     image: swaggerapi/swagger-ui
     networks:
       - network
     ports:
-      - 3001:8080
+      - 3002:8080
     restart: always
 
   app:
