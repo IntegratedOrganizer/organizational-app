@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "====== Creating anonymous role ======"
+
 psql -U ${POSTGRES_USER} <<-END
     CREATE USER ${DB_ANON_ROLE};
     GRANT USAGE ON SCHEMA ${DB_SCHEMA} TO ${DB_ANON_ROLE};
