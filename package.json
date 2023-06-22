@@ -4,13 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "gm": "node -r ./scripts/config/env node_modules/.bin/graphile-migrate",
     "db:commit": "npm run gm commit",
     "db:init": "npm run gm init",
     "db:migrate": "npm run gm migrate",
     "db:watch": "npm run gm watch",
-    "force:restart": "docker compose down --volumes && docker compose up --build -d",
     "force:restart:orphans": "docker compose down --volumes && docker compose up --build --remove-orphans -d",
+    "force:restart": "docker compose down --volumes && docker compose up --build -d",
+    "gm": "node -r ./scripts/config/env node_modules/.bin/graphile-migrate",
+    "restart": "docker compose down && docker compose up -d",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
