@@ -6,7 +6,7 @@ services:
       - ./.env
     expose:
       - '3001'
-    image: postgres:13
+    image: postgres
     networks:
       - network
     ports:
