@@ -1,64 +1,69 @@
 version: '3.3'
 services:
   db:
-    container_name: organizational-app-db
-    restart: unless-stopped
-    image: organizational-app-db
-    build:
-      context: ./db
-    volumes:
-      - db-volume:/var/lib/postgresql/data
-      - ./data:/data
+    container_name: db
     env_file:
       - ./.env
+    expose:
+      - '3001'
+    image: postgres
     networks:
       - network
     ports:
-      - 5432:5432
-    working_dir: /work
-
-  shadow-db:
-    container_name: shadow-db
-    restart: unless-stopped
-    image: shadow-db
-    build:
-      context: ./db/shadow
-    env_file:
-      - ./db/shadow/.env
-    networks:
-      - network
-    ports:
-      - 5438:5432
-    working_dir: /work
-
-  graphql:
-    container_name: organizational-app-graphql
+      - 3001:5432
     restart: always
-    image: organizational-app-graphql
-    build:
-      context: ./graphql
-    env_file:
-      - ./.env
+    volumes:
+      - ./dbinit:/docker-entrypoint-initdb.d
+      - data:/var/lib/postgresql/data
+
+  postgrest:
+    container_name: postgrest
     depends_on:
       - db
+    env_file:
+      - ./.env
+    expose:
+      - '3000'
+    image: postgrest/postgrest
     networks:
       - network
     ports:
-      - 5433:5433
-    command:
-      [
-        '--connection',
-        '${DATABASE_URL}',
-        '--port',
-        '5433',
-        '--schema',
-        'public',
-        '--append-plugins',
-        'postgraphile-plugin-connection-filter,custom-plugin',
-      ]
+      - 3000:3000
+    restart: always
+
+  swagger:
+    container_name: swagger
+    depends_on:
+      - postgrest
+    environment:
+      API_URL: http://localhost:3000/
+    expose:
+      - '3002'
+    image: swaggerapi/swagger-ui
+    networks:
+      - network
+    ports:
+      - 3002:8080
+    restart: always
+
+  app:
+    container_name: app
+    depends_on:
+      - postgrest
+    expose:
+      - '80'
+    image: nginx:mainline-alpine
+    networks:
+      - network
+    ports:
+      - 80:80
+    restart: always
+    volumes:
+      - ./html:/usr/share/nginx/html
 
 networks:
   network:
+    driver: bridge
 
 volumes:
-  db-volume:
+  data:
