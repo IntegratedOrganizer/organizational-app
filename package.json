@@ -4,13 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "db:commit": "npm run gm commit",
-    "db:init": "npm run gm init",
-    "db:migrate": "npm run gm migrate",
-    "db:watch": "npm run gm watch",
     "force:restart:orphans": "docker compose down --volumes && docker compose up --build --remove-orphans -d",
     "force:restart": "docker compose down --volumes && docker compose up --build -d",
-    "gm": "node -r ./scripts/config/env node_modules/.bin/graphile-migrate",
     "psql:connect": "psql -h 127.0.0.1 -U postgres -p 3002 -d organizational-app",
     "restart": "docker compose down && docker compose up -d",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -19,8 +14,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@supabase/postgrest-js": "^1.7.1",
-    "dotenv": "^16.3.1",
-    "graphile-migrate": "^1.4.1",
     "typescript": "^5.1.3"
   },
   "devDependencies": {
