@@ -9,7 +9,7 @@ const main = async () => {
   const { data, error } = await postgrest
     .from('users')
     .select()
-    .eq('first_name', 'Jeremy');
+    .eq('first_name', 'Paul');
   console.log(data);
   console.log('----------------------------');
   console.log(error);
