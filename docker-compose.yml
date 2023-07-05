@@ -2,68 +2,40 @@ version: '3.3'
 services:
   db:
     container_name: db
+    restart: always
+    image: db
+    build:
+      context: ./db
+    volumes:
+      - db:/var/lib/postgresql/data
     env_file:
       - ./.env
-    expose:
-      - '3001'
-    image: postgres
     networks:
       - network
     ports:
-      - 3001:5432
-    restart: always
-    volumes:
-      - ./dbinit:/docker-entrypoint-initdb.d
-      - data:/var/lib/postgresql/data
+      - 5432:5432
+    expose:
+      - 5432
 
-  postgrest:
-    container_name: postgrest
+  graphql:
+    container_name: graphql
+    restart: always
+    image: graphql
+    build:
+      context: ./graphql
+    env_file:
+      - ./.env
     depends_on:
       - db
-    env_file:
-      - ./.env
-    expose:
-      - '3000'
-    image: postgrest/postgrest
     networks:
       - network
     ports:
-      - 3000:3000
-    restart: always
-
-  swagger:
-    container_name: swagger
-    depends_on:
-      - postgrest
-    environment:
-      API_URL: http://localhost:3000/
+      - 5433:5433
     expose:
-      - '3002'
-    image: swaggerapi/swagger-ui
-    networks:
-      - network
-    ports:
-      - 3002:8080
-    restart: always
-
-  app:
-    container_name: app
-    depends_on:
-      - postgrest
-    expose:
-      - '80'
-    image: nginx:mainline-alpine
-    networks:
-      - network
-    ports:
-      - 80:80
-    restart: always
-    volumes:
-      - ./html:/usr/share/nginx/html
+      - 5433
 
 networks:
   network:
-    driver: bridge
 
 volumes:
-  data:
+  db:
