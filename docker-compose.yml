@@ -20,7 +20,7 @@ services:
   graphql:
     container_name: graphql
     restart: always
-    image: graphql
+    image: us-west2-docker.pkg.dev/sinuous-ally-391423/org-app-docker-repo/graphql:latest
     build:
       context: ./graphql
     env_file:
