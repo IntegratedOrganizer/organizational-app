@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS public.users (
 	id serial PRIMARY KEY,
   user_name TEXT NOT NULL,
   first_name TEXT,
-  last_name TEXT,
+  last_name TEXT
 );
 
 ALTER TABLE public.users
