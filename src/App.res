@@ -23,9 +23,7 @@ open HtmlTags
 
 @react.component
 let make = () => {
-  <ApolloClient.React.ApolloProvider client=Apollo.client>
-    <div>
-      <P> "Hello" </P>
-    </div>
-  </ApolloClient.React.ApolloProvider>
+  <div>
+    <P> "Hello" </P>
+  </div>
 }

@@ -6,25 +6,28 @@
   "scripts": {
     "i": "npm install --legacy-peer-deps",
     "dev": "concurrently --kill-others \"npm run res:dev\" \"npm run vite:dev\"",
+    "dev:relay": "concurrently --kill-others \"npm run res:dev\" \"npm run vite:dev\" \"npm run relay:watch\"",
     "res:build": "rescript",
     "res:clean": "rescript clean",
     "res:dev": "rescript build -w",
     "vite:build": "vite build",
     "vite:dev": "vite",
     "vite:preview": "vite preview",
-    "get:schema": "dotenv -- cross-var npx get-graphql-schema %ENDPOINT_URL% -j > graphql_schema.json"
+    "get:schema": "dotenv -- cross-var npx get-graphql-schema %ENDPOINT_URL% > schema.graphql",
+    "relay": "rescript-relay-compiler",
+    "relay:watch": "rescript-relay-compiler --watch"
   },
   "author": "",
   "dependencies": {
-    "@apollo/client": "^3.7.16",
+    "@glennsl/rescript-fetch": "^0.2.0",
     "@rescript/react": "^0.11.0",
-    "@supabase/postgrest-js": "^1.7.1",
     "graphql": "^16.7.1",
+    "graphql-ws": "^5.14.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "rescript": "^10.1.4",
-    "rescript-apollo-client": "^3.2.0",
-    "subscriptions-transport-ws": "^0.11.0",
+    "react-relay": "^15.0.0",
+    "relay-runtime": "^15.0.0",
+    "rescript-relay": "^1.1.1",
     "typescript": "^5.1.3"
   },
   "devDependencies": {
@@ -35,8 +38,14 @@
     "cross-var": "^1.1.0",
     "dotenv-cli": "^7.2.1",
     "postcss": "^8.4.21",
+    "rescript": "^10.1.4",
     "tailwindcss": "^3.2.6",
     "ts-node": "^10.9.1",
-    "vite": "^4.1.0"
+    "vite": "^4.1.0",
+    "watchman": "^1.0.0"
+  },
+  "resolutions": {
+    "react": "18.0.0",
+    "react-dom": "18.0.0"
   }
 }
