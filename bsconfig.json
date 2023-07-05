@@ -1,5 +1,6 @@
 {
   "name": "rescript-template-vite",
+  "bsc-flags": ["-bs-super-errors", "-bs-no-version-header"],
   "sources": [
     {
       "dir": "src",
@@ -15,22 +16,13 @@
   "suffix": ".js",
   "bs-dependencies": [
     "@rescript/react",
-    "@reasonml-community/graphql-ppx",
-    "rescript-apollo-client"
+    "rescript-relay",
+    "@glennsl/rescript-fetch"
   ],
   "jsx": {
     "version": 4,
     "mode": "automatic"
   },
-  "graphql": {
-    "apolloMode": true,
-    "extendMutation": "ApolloClient.GraphQL_PPX.ExtendMutation",
-    "extendQuery": "ApolloClient.GraphQL_PPX.ExtendQuery",
-    "extendSubscription": "ApolloClient.GraphQL_PPX.ExtendSubscription",
-    "templateTagReturnType": "ApolloClient.GraphQL_PPX.templateTagReturnType",
-    "templateTagImport": "gql",
-    "templateTagLocation": "@apollo/client",
-    "templateTagIsFunction": true
-  },
-  "ppx-flags": ["@reasonml-community/graphql-ppx/ppx"]
+  "ppx-flags": ["rescript-relay/ppx"],
+  "uncurried": false
 }
