@@ -6,7 +6,7 @@ RUN mkdir -p /home/node/app/node_modules
 WORKDIR /home/node/app
 
 # Copy dependencies
-COPY ./src/package*.json .
+COPY ./src/package*.json ./
 RUN chown -R node:node /home/node/app
 
 # Install dependencies
@@ -14,7 +14,7 @@ USER node
 RUN npm install
 
 # Copy application files
-COPY --chown=node:node ./src .
+COPY --chown=node:node ./src ./
 
 EXPOSE 8080
 CMD [ "node", "server.js" ]
