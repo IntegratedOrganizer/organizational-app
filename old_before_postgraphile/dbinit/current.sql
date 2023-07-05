@@ -1,4 +1,0 @@
-/*
-Put any current migration work here
-For the time being this will just be a manual commit process
-*/

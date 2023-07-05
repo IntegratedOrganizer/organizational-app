@@ -2,8 +2,8 @@
 data
 
 
+### Vite/TS template ###
 
-### Rescript ###
 # Logs
 logs
 *.log
@@ -28,9 +28,3 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-
-# ReScript
-/lib/
-.bsb.lock
-.merlin
-
