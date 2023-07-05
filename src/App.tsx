@@ -10,27 +10,32 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-client
-  .query({
-    query: gql`
-      query MyQuery {
-        allUsers {
-          nodes {
-            firstName
-            id
-            lastName
-            userName
-          }
-        }
-      }
-    `,
-  })
-  .then((result) => console.log('graphql result: ', result));
 
 console.log('test');
 
 function App() {
   const [count, setCount] = useState(0)
+
+  const [test, setTest] = useState("test")
+
+
+  client
+    .query({
+      query: gql`
+        query MyQuery {
+          allUsers {
+            nodes {
+              firstName
+              id
+              lastName
+              userName
+            }
+          }
+        }
+      `,
+    })
+    .then((result) => setTest(result.data.allUsers.nodes.map((node: any) => node.firstName).join(', ')));
+
 
   return (
     <>
@@ -50,6 +55,8 @@ function App() {
         <p>
           Edit blablah <code>src/App.tsx</code> and save to test HMR
         </p>
+
+        <p>{test}</p>
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
