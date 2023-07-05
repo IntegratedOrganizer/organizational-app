@@ -24,4 +24,4 @@ app.use(
     })
 );
 
-http.createServer(app).listen(process.env.PORT);
+http.createServer(app).listen(process.env.GRAPHQL_PORT);
