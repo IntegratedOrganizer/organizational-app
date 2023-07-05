@@ -20,17 +20,12 @@
 // }
 
 open HtmlTags
-open Postgrest
 
 @react.component
-let make = async () => {
-  let result =
-    await PostgrestClient.postgrestClient("http://localhost:3000")
-    ->PostgrestClient.from("users")
-    ->PostgrestQueryBuilder.select()
-    ->PostgrestQueryBuilder.execute()
-
-  <div>
-    <P> "Hello" </P>
-  </div>
+let make = () => {
+  <ApolloClient.React.ApolloProvider client=Apollo.client>
+    <div>
+      <P> "Hello" </P>
+    </div>
+  </ApolloClient.React.ApolloProvider>
 }
